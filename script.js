@@ -106,7 +106,7 @@ const products = [
 ];
 
 // Initialize Stripe (Replace with your actual publishable key)
-const STRIPE_PUBLISHABLE_KEY = 'pk_test_51234567890abcdef'; // Demo key - replace with real key
+const STRIPE_PUBLISHABLE_KEY = 'pk_test_demo_key_for_testing'; // Demo key - replace with real key
 
 // DOM Content Loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -120,23 +120,27 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeApp() {
     // Initialize Stripe
     try {
-        stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
-        elements = stripe.elements();
-        
-        // Create card element
-        cardElement = elements.create('card', {
-            style: {
-                base: {
-                    fontSize: '16px',
-                    color: '#424770',
-                    '::placeholder': {
-                        color: '#aab7c4',
+        if (typeof Stripe !== 'undefined' && STRIPE_PUBLISHABLE_KEY && STRIPE_PUBLISHABLE_KEY !== 'pk_test_demo_key_for_testing') {
+            stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+            elements = stripe.elements();
+            
+            // Create card element
+            cardElement = elements.create('card', {
+                style: {
+                    base: {
+                        fontSize: '16px',
+                        color: '#424770',
+                        '::placeholder': {
+                            color: '#aab7c4',
+                        },
                     },
                 },
-            },
-        });
+            });
+        } else {
+            console.log('Stripe not configured - using demo mode');
+        }
     } catch (error) {
-        console.log('Stripe not configured - using demo mode');
+        console.log('Stripe initialization failed - using demo mode:', error.message);
     }
 
     // Load cart from localStorage
