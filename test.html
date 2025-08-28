@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bakery Test - Sweet Dreams Bakery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-card {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        button {
+            background: #d4704a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #b85c3e;
+        }
+        .demo-info {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🍰 Sweet Dreams Bakery - Project Test</h1>
+    
+    <div class="demo-info">
+        <h3>📋 Project Status Check</h3>
+        <p>This page tests the bakery website functionality without requiring a server setup.</p>
+    </div>
+
+    <div class="test-card">
+        <h3>🗂️ File Structure Test</h3>
+        <div id="file-test">Testing file availability...</div>
+    </div>
+
+    <div class="test-card">
+        <h3>🎨 CSS Loading Test</h3>
+        <div id="css-test">Testing CSS file...</div>
+    </div>
+
+    <div class="test-card">
+        <h3>📱 JavaScript Functionality Test</h3>
+        <div id="js-test">Testing JavaScript file...</div>
+    </div>
+
+    <div class="test-card">
+        <h3>🚀 Launch Options</h3>
+        <button onclick="openMainSite()">Open Main Bakery Website</button>
+        <button onclick="testWithServer()">Test with Node.js Server</button>
+        <div id="launch-info"></div>
+    </div>
+
+    <div class="test-card">
+        <h3>📖 Setup Instructions</h3>
+        <h4>Option 1: Direct Browser Access (No Server Required)</h4>
+        <ol>
+            <li>Open <code>index.html</code> directly in your browser</li>
+            <li>All features work except real payment processing</li>
+            <li>Perfect for demo and testing purposes</li>
+        </ol>
+        
+        <h4>Option 2: With Node.js Server (Full Features)</h4>
+        <ol>
+            <li>Run: <code>npm install</code></li>
+            <li>Run: <code>npm start</code></li>
+            <li>Visit: <code>http://localhost:3000</code></li>
+            <li>Configure Stripe keys for real payments</li>
+        </ol>
+    </div>
+
+    <script>
+        // Test file availability
+        async function testFiles() {
+            const files = ['index.html', 'styles.css', 'script.js', 'server.js', 'package.json'];
+            const fileTest = document.getElementById('file-test');
+            let results = [];
+
+            for (const file of files) {
+                try {
+                    const response = await fetch(file, { method: 'HEAD' });
+                    if (response.ok) {
+                        results.push(`✅ ${file}`);
+                    } else {
+                        results.push(`❌ ${file} (${response.status})`);
+                    }
+                } catch (error) {
+                    results.push(`❌ ${file} (Error: ${error.message})`);
+                }
+            }
+            
+            fileTest.innerHTML = results.join('<br>');
+        }
+
+        // Test CSS loading
+        function testCSS() {
+            const cssTest = document.getElementById('css-test');
+            
+            // Try to load styles.css
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'styles.css';
+            link.onload = () => {
+                cssTest.innerHTML = '✅ CSS file loaded successfully <span class="status success">PASS</span>';
+            };
+            link.onerror = () => {
+                cssTest.innerHTML = '❌ CSS file failed to load <span class="status error">FAIL</span>';
+            };
+            document.head.appendChild(link);
+        }
+
+        // Test JavaScript loading
+        function testJS() {
+            const jsTest = document.getElementById('js-test');
+            
+            // Try to load script.js
+            const script = document.createElement('script');
+            script.src = 'script.js';
+            script.onload = () => {
+                jsTest.innerHTML = '✅ JavaScript file loaded successfully <span class="status success">PASS</span>';
+            };
+            script.onerror = () => {
+                jsTest.innerHTML = '❌ JavaScript file failed to load <span class="status error">FAIL</span>';
+            };
+            document.head.appendChild(script);
+        }
+
+        // Open main site
+        function openMainSite() {
+            const launchInfo = document.getElementById('launch-info');
+            window.open('index.html', '_blank');
+            launchInfo.innerHTML = '<div class="status info">Main site opened in new tab</div>';
+        }
+
+        // Test with server
+        function testWithServer() {
+            const launchInfo = document.getElementById('launch-info');
+            
+            // Try to open server version
+            fetch('/api/health')
+                .then(response => {
+                    if (response.ok) {
+                        window.open('http://localhost:3000', '_blank');
+                        launchInfo.innerHTML = '<div class="status success">Server is running! Opened in new tab.</div>';
+                    } else {
+                        launchInfo.innerHTML = '<div class="status error">Server not running. Please run: npm start</div>';
+                    }
+                })
+                .catch(error => {
+                    launchInfo.innerHTML = '<div class="status error">Server not running. Please run: npm start</div>';
+                });
+        }
+
+        // Run tests on page load
+        window.addEventListener('load', () => {
+            testFiles();
+            testCSS();
+            testJS();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Dreams Bakery - Fresh Baked Goods Online</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <i class="fas fa-birthday-cake"></i>
+                    <span>Sweet Dreams Bakery</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#products" class="nav-link">Products</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                    <li>
+                        <button class="cart-btn" onclick="toggleCart()">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count">0</span>
+                        </button>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Freshly Baked with Love</h1>
+            <p>Experience the finest artisanal breads, pastries, and cakes made daily with premium ingredients</p>
+            <button class="cta-btn" onclick="scrollToProducts()">Order Now</button>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Fresh baked goods">
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products">
+        <div class="container">
+            <h2>Our Delicious Products</h2>
+            <div class="product-categories">
+                <button class="category-btn active" data-category="all">All</button>
+                <button class="category-btn" data-category="bread">Breads</button>
+                <button class="category-btn" data-category="pastries">Pastries</button>
+                <button class="category-btn" data-category="cakes">Cakes</button>
+                <button class="category-btn" data-category="cookies">Cookies</button>
+            </div>
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>About Sweet Dreams Bakery</h2>
+                    <p>For over 20 years, Sweet Dreams Bakery has been serving the community with the finest baked goods. Our master bakers use traditional techniques combined with the freshest ingredients to create memorable treats that bring families together.</p>
+                    <p>From our signature sourdough bread to our decadent chocolate cakes, every item is crafted with passion and attention to detail.</p>
+                    <div class="features">
+                        <div class="feature">
+                            <i class="fas fa-leaf"></i>
+                            <span>Fresh Daily</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-heart"></i>
+                            <span>Made with Love</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-truck"></i>
+                            <span>Fast Delivery</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Baker at work">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>Address</h3>
+                            <p>123 Baker Street, Sweet City, SC 12345</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h3>Phone</h3>
+                            <p>(555) 123-BAKE</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>Email</h3>
+                            <p>orders@sweetdreamsbakery.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h3>Hours</h3>
+                            <p>Mon-Sat: 6AM-8PM<br>Sun: 7AM-6PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="close-cart" onclick="toggleCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <strong>Total: $<span id="cartTotal">0.00</span></strong>
+            </div>
+            <button class="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Checkout</h2>
+                <button class="close-modal" onclick="closeCheckout()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="checkout-content">
+                <div class="checkout-step" id="step1">
+                    <h3>Customer Information</h3>
+                    <form id="customerForm">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Delivery Address</label>
+                            <textarea id="address" name="address" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryDate">Preferred Delivery Date</label>
+                            <input type="date" id="deliveryDate" name="deliveryDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="specialInstructions">Special Instructions (Optional)</label>
+                            <textarea id="specialInstructions" name="specialInstructions" rows="2"></textarea>
+                        </div>
+                        <button type="submit" class="next-btn">Continue to Payment</button>
+                    </form>
+                </div>
+                
+                <div class="checkout-step hidden" id="step2">
+                    <h3>Payment Information</h3>
+                    <div class="order-summary">
+                        <h4>Order Summary</h4>
+                        <div id="orderSummary"></div>
+                        <div class="total-amount">
+                            <strong>Total: $<span id="finalTotal">0.00</span></strong>
+                        </div>
+                    </div>
+                    <div class="payment-form">
+                        <div id="card-element">
+                            <!-- Stripe Elements will create form elements here -->
+                        </div>
+                        <div id="card-errors" role="alert"></div>
+                        <button id="submit-payment" class="pay-btn">
+                            <span>Pay Now</span>
+                            <div class="spinner hidden"></div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="checkout-step hidden" id="step3">
+                    <div class="success-message">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Order Confirmed!</h3>
+                        <p>Thank you for your order. You will receive a confirmation email shortly.</p>
+                        <div class="order-details" id="orderDetails"></div>
+                        <button class="new-order-btn" onclick="startNewOrder()">Start New Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Sweet Dreams Bakery</h3>
+                    <p>Bringing sweetness to your life, one bite at a time.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#products">Products</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Customer Service</h4>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Sweet Dreams Bakery. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
